@@ -1,0 +1,69 @@
+<html>
+  <head>
+    <title>JS Dude Salary App2</title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.png" />
+    <script src="scripts/d3.js"></script>
+    <script src="scripts/nv.d3.js"></script>
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <link rel="stylesheet" href="styles/nv.d3.css">
+    <link rel="stylesheet" href="scripts/jquery-ui-1.11.4/jquery-ui.min.css">
+    <style>
+		#chart{
+			height: 400px;
+		}
+		.dialog p{
+			font-size: 1.2em;
+		}
+		#dialog-last-item span{
+			font-size: 2em;
+		}
+		#dialog-error span{
+			font-size: 1.3em;
+		}
+		#dialog-record-count span{
+			font-size: 2.5em;
+		}
+    </style>
+   
+    <script src="scripts/jquery-2.1.4.min.js"></script>
+    <script src="scripts/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+    <script src="./salaryData.js"></script>
+  	<script src="salaryApp.js"></script>
+    <script src="scripts/findEventHandlers.js"></script>
+  </head>
+  <body>
+    <div class="text-center">
+      <h1 class="text-primary"><strong>JS Dude Salary App</strong></h1>
+      <p>Salary, the Promised amount you never get</small>
+    </div>
+    <div class="form-inline text-center">
+    	<div class="form-group">
+		    <input class="form-control" type='text' id='name' placeholder='Name'>
+		    <input class="form-control" type='text' id='salary' placeholder='Salary'>
+		    <button class="btn btn-success form-control" id="addRecord">Add Record</button>
+		    <button class="btn btn-info" id="showLast">Show Last</button>
+		    <button class="btn btn-info" id="recordCount">Record Count</button>
+    	</div>
+    </div>
+	
+	<div id="chart">
+    	<svg></svg>
+    </div>
+
+    <div id="dialog-last-item" class="hide dialog" title="Last Item in the Chart" >
+      <p>Name: <span id="showName" class="text-success"></span></p>
+      <p>Salary: <span id="showSalary" class="text-success"></span></p>
+    </div>
+    
+    <div id="dialog-error" class="hide dialog" title="Be careful Dude !" >
+      <p id="newNameLine">Name: <span id="newName" class="text-warning"></span></p>
+      <p id="newSalaryLine">Salary: <span id="newSalary" class="text-warning"></span></p>
+      <h2 class="text-danger">Your Boss is watching!</h2>
+    </div>
+
+	<div id="dialog-record-count" class="hide dialog" title="Number of Records" >
+	  <p>Record count: <span id="numberOfRecords" class="text-success"></span></p>	  
+	</div>
+  <h3 class="text-primary hide">Initial Count: <span id="initial-count"></span></h3>
+  </body>
+</html>  
