@@ -55,10 +55,10 @@ var salary_data = {
   },
   "-JviO0Y_tNNMQNrdZVBR" : {
     "name" : "Jhankar Mahbub",
-    "salary" : "53444"
+    "salary" : "63444"
   },
   "-JviO3gXUpSdnZHtliWg" : {
     "name" : "Jhankar Mahbub",
-    "salary" : "63444"
+    "salary" : "53655"
   }
 }
