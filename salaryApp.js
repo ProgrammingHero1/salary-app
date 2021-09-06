@@ -108,15 +108,6 @@ function getRecord(name, salary) {
   return newItem;
 }
 
-// const logGitData = function logGitData(reqListener) {
-//   const url = "http://khan4019.github.io/advJSDebug/scripts/salaryData.json";
-
-//   const oReq = new XMLHttpRequest();
-//   oReq.addEventListener("load", reqListener);
-//   oReq.open("get", url, true);
-//   oReq.send();
-// };
-
 function secondHandler(e) {
   console.log("why are you clicking around????");
 }
