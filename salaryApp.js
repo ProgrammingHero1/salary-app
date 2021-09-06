@@ -1,227 +1,213 @@
-
-
-function initializeChart(data){
+// Initialize Chart
+function initializeChart(data) {
   var chartData = formatChartData(data);
   drawChart(chartData);
-
 }
-  
 
+const formatChartData = function (data) {
+  const chartItems = getChartItems(data);
 
-var formatChartData = function (data) {
-  var chartItems = getChartItems(data);
-
-  var dataWithUniqueName = uniquifyNames(chartItems);
+  const dataWithUniqueName = uniquifyNames(chartItems);
 
   return [
     {
-      key:'unnecessary data',
-      values: dataWithUniqueName
-    }
+      key: "unnecessary data",
+      values: dataWithUniqueName,
+    },
   ];
-}
+};
 
-var getChartItems = function (data) {
-  var chartItems =[];
-  for (var i in data) {
+const getChartItems = function (data) {
+  const chartItems = [];
+  for (const i in data) {
     chartItems.push(data[i]);
-  };
+  }
 
   return chartItems;
-}
+};
 
-var drawChart = function drawChart (data) {
-  nv.addGraph(function() {
-    var chart = nv.models.discreteBarChart()
-        .x(function(d) { return d.name })   
-        .y(function(d) { return parseFloat(d.salary) })
-        .staggerLabels(true)
-        ;
-
-    d3.select('#chart svg')
-        .datum(data)
-        .call(chart);
+const drawChart = function drawChart(data) {
+  nv.addGraph(function () {
+    const chart = nv.models
+      .discreteBarChart()
+      .x(function (d) {
+        return d.name;
+      })
+      .y(function (d) {
+        return parseFloat(d.salary);
+      })
+      .staggerLabels(true);
+    d3.select("#chart svg").datum(data).call(chart);
 
     nv.utils.windowResize(chart.update);
 
     return chart;
   });
-}
-
-
+};
 
 //save new item
-$(document).ready(function(){
+document.addEventListener("DOMContentLoaded", () => {
   initializeChart(salary_data);
-
-
-  $('#addRecord').click(addRecordHandler);
-
-  var btnShowLast = document.getElementById("showLast");
-  btnShowLast.addEventListener("click", function showLastHandler (e) {
+  document
+    .getElementById("AddRecord")
+    .addEventListener("click", addRecordHandler);
+  const btnShowLast = document.getElementById("showLast");
+  btnShowLast.addEventListener("click", function showLastHandler(e) {
     showLastItem();
   });
 
+  document
+    .getElementById("recordCount")
+    .addEventListener("click", function recordCountHandler(e) {
+      loadFirebaseData(showRecordCountListener);
+    });
 
-  document.getElementById("recordCount")
-          .addEventListener("click", function recordCountHandler (e) {
-            loadFirebaseData(showRecordCountListener);
-          });
-
-
-  // document.getElementById("recordCount").addEventListener("click", anotherRecordCountHandler);
-
- // $('#addRecord').click(secondHandler);
-
-
- window.setTimeout(function () {
-   document.getElementById("recordCount").setAttribute('class', 'btn btn-success');
- }, 2000)
-
+  window.setTimeout(function () {
+    document
+      .getElementById("recordCount")
+      .setAttribute("class", "btn btn-success");
+  }, 2000);
 });
-  
 
-var showRecordCountListener = function (chartItems) {
-  showRecordCount(chartItems[0].values);      
-}  
-
-var initialCountListener = function () {
-  var itemsObj = JSON.parse(this.responseText);
-  var chartItems = getChartItems(itemsObj); 
-  $('#initial-count').text(chartItems.length); 
-}
-
-
-function addRecordHandler() {
-    
-    var name = $('#name').val();
-    var salary = $('#salary').val();
-    
-    if(!name || !salary){
-      showDataError(name, salary);
-      return;
-    }
-
-    addRecord(name, salary);
-
-  }
-
-  function addRecord (name, salary) {
-    var newItem = getRecord(name, salary);
-    var id = Math.ceil(Math.random()*1000000000);
-    
-    salary_data[id] = newItem;
-    initializeChart(salary_data);
-  }
-
-  function getRecord (name, salary) {
-    
-    var newItem = {
-      name: name,
-      salary: salary
-    };
-
-    return newItem;
-  }
-
-  var logGitData = function logGitData (reqListener) {
-  
-    var url = "http://khan4019.github.io/advJSDebug/scripts/salaryData.json";
-
-    var oReq = new XMLHttpRequest();
-    oReq.addEventListener('load', reqListener);
-    oReq.open("get", url, true);
-    oReq.send();
+const showRecordCountListener = function (chartItems) {
+  showRecordCount(chartItems[0].values);
 };
 
+const initialCountListener = function () {
+  const itemsObj = JSON.parse(this.responseText);
+  const chartItems = getChartItems(itemsObj);
+  document.getElementById("initial-count").innerText = chartItems.length;
+};
+
+function addRecordHandler() {
+  const name = document.getElementById("name").value;
+  const salary = document.getElementById("salary").value;
+
+  if (!name || !salary) {
+    showDataError(name, salary);
+    return;
+  }
+
+  addRecord(name, salary);
+}
+
+function addRecord(name, salary) {
+  const newItem = getRecord(name, salary);
+  const id = Math.ceil(Math.random() * 1000000000);
+
+  salary_data[id] = newItem;
+  initializeChart(salary_data);
+}
+
+function getRecord(name, salary) {
+  const newItem = {
+    name: name,
+    salary: salary,
+  };
+
+  return newItem;
+}
+
+// const logGitData = function logGitData(reqListener) {
+//   const url = "http://khan4019.github.io/advJSDebug/scripts/salaryData.json";
+
+//   const oReq = new XMLHttpRequest();
+//   oReq.addEventListener("load", reqListener);
+//   oReq.open("get", url, true);
+//   oReq.send();
+// };
+
 function secondHandler(e) {
-  console.log('why are you clicking around????');
+  console.log("why are you clicking around????");
 }
 
-var showLastItem = function () {
-  
-    var items = salary_data;
-    for(var lastKey in items);
-    var lastItem = items[lastKey];
-    var lastRecord = getRecord(lastItem.name, lastItem.salary);
-    displayLastItemDialog(lastRecord);
-  
-}
+const showLastItem = function () {
+  const items = salary_data;
+  // Error - Last Key is not defined
+  for (const lastKey in items);
+  const lastItem = items[lastKey];
+  const lastRecord = getRecord(lastItem.name, lastItem.salary);
+  displayLastItemDialog(lastRecord);
+};
 
-var loadFirebaseData = function (resHandler) {
-    var data = salary_data;
-    var chartData = formatChartData(data);
-    resHandler(chartData);
-}
+const loadFirebaseData = function (resHandler) {
+  const data = salary_data;
+  const chartData = formatChartData(data);
+  resHandler(chartData);
+};
 
-
-var displayLastItemDialog = function (lastItem) {
-    var dlg = $("#dialog-last-item");
-    dlg.removeClass('hide');
-    $('#showName').text(lastItem.name);
-    $('#showSalary').text(d3.format(",.0f")(lastItem.salary));
-    dlg.dialog({
-      buttons: {
-          "Ok" : function () {
-              $(this).dialog("close");
-          }
-      }
+const displayLastItemDialog = function (lastItem) {
+  const dlg = document.getElementById("dialog-last-item");
+  dlg.classList.remove("hide");
+  document.getElementById("showName").innerText = lastItem.name;
+  document.getElementById("showSalary").innerText = d3.format(",.0f")(
+    lastItem.salary
+  );
+  dlg.dialog({
+    buttons: {
+      Ok: function () {
+        $(this).dialog("close");
+      },
+    },
   });
-}
+};
 
 var showDataError = function (name, salary) {
- var dlg = $("#dialog-error");
-    
-  dlg.removeClass('hide');
+  const dlg = document.getElementById("#dialog-error");
+  dlg.classList.remove("hide");
 
-  toggleErrorMessage('#newName', name, "Who the hell you are talking about!");
-  toggleErrorMessage('#newSalary', salary,"How much that guy make!");
+  toggleErrorMessage("#newName", name, "Who the hell you are talking about!");
+  toggleErrorMessage("#newSalary", salary, "How much that guy make!");
 
   dlg.dialog({
-    width:600,
+    width: 600,
     buttons: {
-        "Ok" : function () {
-            $(this).dialog("close");
-        }
-    }
-  }); 
-}
+      Ok: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+};
 
-function toggleErrorMessage(selector, value, msg){
-  if(value){
-    $(selector+'Line').hide();
-  }
-  else{
-    $(selector+'Line').show();
-    $(selector).text(msg);
+function toggleErrorMessage(selector, value, msg) {
+  if (value) {
+    document.getElementById(selector + "line").style.display = "none";
+  } else {
+    document.getElementById(selector + "line").style.display = "block";
+    document.getElementById(selector).innerText = msg;
   }
 }
 
-var showRecordCount = function (data) {
- var dlg = $("#dialog-record-count");
-    
-  dlg.removeClass('hide');
+const showRecordCount = function (data) {
+  const dlg = document.getElementById("dialog-record-count");
 
-  $('#numberOfRecords').text(data.length);
+  dlg.classList.remove("hide");
+
+  document.getElementById("numberOfRecords").innerText = data.length;
 
   dlg.dialog({
     buttons: {
-        "Ok" : function () {
-            $(this).dialog("close");
-        }
-    }
-  }); 
-}
+      Ok: function () {
+        $(this).dialog("close");
+      },
+    },
+  });
+};
 
-var anotherRecordCountHandler = function anotherRecordCountHandler (e) {
-  console.log('you have extra click handler');
-  for(let i = 0; i<10; i++){const isEven = i%2 ? 'odd' : 'even'; console.log(isEven) }
-}
+const anotherRecordCountHandler = function anotherRecordCountHandler(e) {
+  console.log("you have extra click handler");
+  for (let i = 0; i < 10; i++) {
+    const isEven = i % 2 ? "odd" : "even";
+    console.log(isEven);
+  }
+};
 
-
-function longLineCode () {
-  console.log('you have extra click handler');
-  for(let i = 0; i<10; i++){const isEven = i%2 ? 'odd' : 'even'; console.log(isEven) }
+function longLineCode() {
+  console.log("you have extra click handler");
+  for (let i = 0; i < 10; i++) {
+    const isEven = i % 2 ? "odd" : "even";
+    console.log(isEven);
+  }
 }
 
 /*
@@ -242,18 +228,16 @@ function longLineCode () {
   need a coffee break!
 */
 
-var uniquifyNames = function(items){
-  var uniqueNames = {};
-  
+const uniquifyNames = function (items) {
+  const uniqueNames = {};
+
   return items.map(function (item) {
-    if(uniqueNames[item.name]){
+    if (uniqueNames[item.name]) {
       uniqueNames[item.name] += " ";
       item.name += uniqueNames[item.name];
-
-    }
-    else{
+    } else {
       uniqueNames[item.name] = "";
     }
     return item;
   });
-}
+};
