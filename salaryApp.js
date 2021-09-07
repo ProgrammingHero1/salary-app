@@ -114,8 +114,10 @@ function secondHandler(e) {
 
 const showLastItem = function () {
   const items = salary_data;
-  // Error - Last Key is not defined
-  for (const lastKey in items);
+  let lastKey;
+  for (const key in items){
+    lastKey = key;
+  };
   const lastItem = items[lastKey];
   const lastRecord = getRecord(lastItem.name, lastItem.salary);
   displayLastItemDialog(lastRecord);
