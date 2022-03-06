@@ -11,7 +11,7 @@ const formatChartData = function (data) {
 
   return [
     {
-      key: "unnecessary data",
+      key: 'unnecessary data',
       values: dataWithUniqueName,
     },
   ];
@@ -37,7 +37,7 @@ const drawChart = function drawChart(data) {
         return parseFloat(d.salary);
       })
       .staggerLabels(true);
-    d3.select("#chart svg").datum(data).call(chart);
+    d3.select('#chart svg').datum(data).call(chart);
 
     nv.utils.windowResize(chart.update);
 
@@ -46,26 +46,26 @@ const drawChart = function drawChart(data) {
 };
 
 //save new item
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
   initializeChart(salary_data);
   document
-    .getElementById("AddRecord")
-    .addEventListener("click", addRecordHandler);
-  const btnShowLast = document.getElementById("showLast");
-  btnShowLast.addEventListener("click", function showLastHandler(e) {
+    .getElementById('AddRecord')
+    .addEventListener('click', addRecordHandler);
+  const btnShowLast = document.getElementById('showLast');
+  btnShowLast.addEventListener('click', function showLastHandler(e) {
     showLastItem();
   });
 
   document
-    .getElementById("recordCount")
-    .addEventListener("click", function recordCountHandler(e) {
+    .getElementById('recordCount')
+    .addEventListener('click', function recordCountHandler(e) {
       loadFirebaseData(showRecordCountListener);
     });
 
   window.setTimeout(function () {
     document
-      .getElementById("recordCount")
-      .setAttribute("class", "btn btn-success");
+      .getElementById('recordCount')
+      .setAttribute('class', 'btn btn-success');
   }, 2000);
 });
 
@@ -76,12 +76,12 @@ const showRecordCountListener = function (chartItems) {
 const initialCountListener = function () {
   const itemsObj = JSON.parse(this.responseText);
   const chartItems = getChartItems(itemsObj);
-  document.getElementById("initial-count").innerText = chartItems.length;
+  document.getElementById('initial-count').innerText = chartItems.length;
 };
 
 function addRecordHandler() {
-  const name = document.getElementById("name").value;
-  const salary = document.getElementById("salary").value;
+  const name = document.getElementById('name').value;
+  const salary = document.getElementById('salary').value;
 
   if (!name || !salary) {
     showDataError(name, salary);
@@ -109,15 +109,15 @@ function getRecord(name, salary) {
 }
 
 function secondHandler(e) {
-  console.log("why are you clicking around????");
+  console.log('why are you clicking around????');
 }
 
 const showLastItem = function () {
   const items = salary_data;
   let lastKey;
-  for (const key in items){
+  for (const key in items) {
     lastKey = key;
-  };
+  }
   const lastItem = items[lastKey];
   const lastRecord = getRecord(lastItem.name, lastItem.salary);
   displayLastItemDialog(lastRecord);
@@ -130,33 +130,33 @@ const loadFirebaseData = function (resHandler) {
 };
 
 const displayLastItemDialog = function (lastItem) {
-  const dlg = document.getElementById("dialog-last-item");
-  dlg.classList.remove("hide");
-  document.getElementById("showName").innerText = lastItem.name;
-  document.getElementById("showSalary").innerText = d3.format(",.0f")(
+  const dlg = document.getElementById('dialog-last-item');
+  dlg.classList.remove('hide');
+  document.getElementById('showName').innerText = lastItem.name;
+  document.getElementById('showSalary').innerText = d3.format(',.0f')(
     lastItem.salary
   );
   dlg.dialog({
     buttons: {
       Ok: function () {
-        $(this).dialog("close");
+        $(this).dialog('close');
       },
     },
   });
 };
 
 var showDataError = function (name, salary) {
-  const dlg = document.getElementById("#dialog-error");
-  dlg.classList.remove("hide");
+  const dlg = document.getElementById('#dialog-error');
+  dlg.classList.remove('hide');
 
-  toggleErrorMessage("#newName", name, "Who the hell you are talking about!");
-  toggleErrorMessage("#newSalary", salary, "How much that guy make!");
+  toggleErrorMessage('#newName', name, 'Who the hell you are talking about!');
+  toggleErrorMessage('#newSalary', salary, 'How much that guy make!');
 
   dlg.dialog({
     width: 600,
     buttons: {
       Ok: function () {
-        $(this).dialog("close");
+        $(this).dialog('close');
       },
     },
   });
@@ -164,41 +164,41 @@ var showDataError = function (name, salary) {
 
 function toggleErrorMessage(selector, value, msg) {
   if (value) {
-    document.getElementById(selector + "line").style.display = "none";
+    document.getElementById(selector + 'line').style.display = 'none';
   } else {
-    document.getElementById(selector + "line").style.display = "block";
+    document.getElementById(selector + 'line').style.display = 'block';
     document.getElementById(selector).innerText = msg;
   }
 }
 
 const showRecordCount = function (data) {
-  const dlg = document.getElementById("dialog-record-count");
+  const dlg = document.getElementById('dialog-record-count');
 
-  dlg.classList.remove("hide");
+  dlg.classList.remove('hide');
 
-  document.getElementById("numberOfRecords").innerText = data.length;
+  document.getElementById('numberOfRecords').innerText = data.length;
 
   dlg.dialog({
     buttons: {
       Ok: function () {
-        $(this).dialog("close");
+        $(this).dialog('close');
       },
     },
   });
 };
 
 const anotherRecordCountHandler = function anotherRecordCountHandler(e) {
-  console.log("you have extra click handler");
+  console.log('you have extra click handler');
   for (let i = 0; i < 10; i++) {
-    const isEven = i % 2 ? "odd" : "even";
+    const isEven = i % 2 ? 'odd' : 'even';
     console.log(isEven);
   }
 };
 
 function longLineCode() {
-  console.log("you have extra click handler");
+  console.log('you have extra click handler');
   for (let i = 0; i < 10; i++) {
-    const isEven = i % 2 ? "odd" : "even";
+    const isEven = i % 2 ? 'odd' : 'even';
     console.log(isEven);
   }
 }
@@ -226,10 +226,10 @@ const uniquifyNames = function (items) {
 
   return items.map(function (item) {
     if (uniqueNames[item.name]) {
-      uniqueNames[item.name] += " ";
+      uniqueNames[item.name] += ' ';
       item.name += uniqueNames[item.name];
     } else {
-      uniqueNames[item.name] = "";
+      uniqueNames[item.name] = '';
     }
     return item;
   });
